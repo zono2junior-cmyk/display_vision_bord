@@ -1,0 +1,7 @@
+# OS が自動生成する不要なファイル
+.DS_Store
+Thumbs.db
+
+# エディタの設定フォルダ
+.vscode/
+.idea/

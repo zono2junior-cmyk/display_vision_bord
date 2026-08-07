@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>展覧会ビジョンボード・テンプレート</title>
+
+<!-- 見た目(CSS)は別ファイルを読み込みます -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="page">
+
+  <!-- ============ ヘッダー ============ -->
+  <header class="masthead">
+    <div class="masthead-top">
+      <div>
+        <p class="eyebrow">EXHIBITION VISION BOARD</p>
+        <h1>展覧会ビジョンボード・テンプレート</h1>
+        <p class="subtitle">コンセプトから具体的な行動までをつなぐ設計書</p>
+      </div>
+      <div class="print-area">
+        <button class="print-btn" id="printBtn" type="button">🖨 印刷する</button>
+        <p class="print-hint">開かない場合は Ctrl+P（Mac: ⌘+P）をお試しください</p>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta-item"><span>会場</span><strong id="venue"></strong></div>
+      <div class="meta-item"><span>使用スペース</span><strong id="space"></strong></div>
+      <div class="meta-item"><span>記入日</span><input type="date" id="meta-created"></div>
+      <div class="meta-item"><span>更新日</span><input type="date" id="meta-updated"></div>
+    </div>
+  </header>
+
+  <!-- localStorageが使えない環境向けの注意書き（通常は非表示） -->
+  <p class="storage-warning" id="storageWarning" hidden>
+    ⚠️ この環境では自動保存（localStorage）が利用できないようです。入力内容はページを再読み込みすると消えてしまいます。印刷用としてはそのままご利用いただけます。
+  </p>
+
+  <section class="proposal-note">
+    <h2>📝 このテンプレートについて</h2>
+    <ul>
+      <li>各項目の左にあるボタンで「確定／未確定」を切り替えられます。文言もその場で編集できます。</li>
+      <li>「＋ 項目を追加」でリストや表に行を増やせます。「×」で削除できます。</li>
+      <li>入力内容はこのブラウザに自動保存されます（保存の仕組みは README.md 参照）。</li>
+      <li>各セクション右上のタグは、mdファイルのフロー（VISION→…→CHECK）のどの段階かを示す目印です。予算・リスクなどフロー外の実務項目は「実務管理」としています。</li>
+      <li><strong>要確認：</strong>「18. 成功の指標」のうち1項目は元画像で判読できなかったため空欄にしています。「作品を覚えて帰ってくれたか」は判読しづらく、推定で記載しています（項目に印を付けています）。</li>
+    </ul>
+    <p class="note-small">※ 展示内容・コンセプト・6人の具体的な関係性・展示方法など、ユーザーが決めていない事項は追加していません。</p>
+  </section>
+
+  <details class="legend-details" open>
+    <summary>🔗 フロー構成と設計ルール（元のmdファイルより・参考表示）</summary>
+    <div class="flow-legend" id="flowLegend"></div>
+    <table class="hierarchy-table">
+      <thead><tr><th>階層</th><th>決めること</th></tr></thead>
+      <tbody id="hierarchyTableBody"></tbody>
+    </table>
+    <ul class="rules-list" id="rulesList"></ul>
+  </details>
+
+  <!-- ============ 18セクションはここにJavaScriptで描画されます ============ -->
+  <main id="sections"></main>
+
+  <p class="note-small" style="margin-top:30px; text-align:center;">※このテンプレートは、内容が未決定でも使用できます。思いつくことから埋めていきましょう。</p>
+
+  <footer>
+    <p class="note-small">Vision Board Template</p>
+  </footer>
+</div>
+
+<div class="save-indicator" id="saveIndicator"></div>
+
+<!-- 内容(data.js) → 動き(app.js) の順で読み込みます -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
