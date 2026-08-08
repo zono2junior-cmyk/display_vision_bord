@@ -124,22 +124,33 @@ h1{font-size:1.7rem; font-weight:700;}
 
 /* ---------- 確定/未確定トグル付きリスト ---------- */
 .status-list{display:flex; flex-direction:column; gap:8px;}
-.status-item{display:flex; align-items:center; gap:8px; min-width:0;}
+.status-item{display:flex; align-items:flex-start; gap:8px; min-width:0;}
 .status-toggle{
+  margin-top:2px;
   flex:none; border:none; border-radius:999px; padding:5px 12px; font-size:.74rem; font-weight:700;
   font-family:inherit; cursor:pointer; white-space:nowrap;
 }
 .status-toggle.is-confirmed{background:var(--ok-soft); color:var(--ok);}
 .status-toggle.is-undecided{background:var(--warn-soft); color:var(--warn);}
-.status-text{flex:1; min-width:0; border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-family:inherit; font-size:.9rem; background:#FCFCFA;}
+.status-text{
+  flex:1; min-width:0; display:block; width:100%;
+  border:1px solid var(--line); border-radius:8px; padding:8px 10px;
+  font-family:inherit; font-size:.9rem; line-height:1.5; color:var(--ink);
+  background:#FCFCFA; resize:none; overflow:hidden;
+}
 .status-text:focus{outline:2px solid var(--stage); outline-offset:1px;}
 
 /* ---------- チェックリスト（完了/選択のON・OFF） ---------- */
 .checklist{display:grid; gap:8px;}
 .checklist.two-col{grid-template-columns:1fr 1fr;}
-.checklist-item{display:flex; align-items:center; gap:8px; font-size:.9rem; min-width:0;}
-.checklist-item input[type="checkbox"]{width:17px; height:17px; accent-color:var(--stage); flex:none;}
-.inline-text{flex:1; min-width:0; border:none; border-bottom:1px solid var(--line); background:transparent; font-family:inherit; font-size:.9rem; padding:4px 2px;}
+.checklist-item{display:flex; align-items:flex-start; gap:8px; font-size:.9rem; min-width:0;}
+.checklist-item input[type="checkbox"]{width:17px; height:17px; accent-color:var(--stage); flex:none; margin-top:6px;}
+.inline-text{
+  flex:1; min-width:0; display:block; width:100%;
+  border:none; border-bottom:1px solid var(--line); background:transparent;
+  font-family:inherit; font-size:.9rem; line-height:1.5; color:var(--ink);
+  padding:4px 2px; resize:none; overflow:hidden;
+}
 .inline-text:focus{outline:none; border-bottom:1.5px solid var(--stage);}
 .flag{color:var(--warn); font-size:.72rem; white-space:nowrap;}
 
@@ -150,7 +161,7 @@ h1{font-size:1.7rem; font-weight:700;}
 }
 .add-btn:hover{border-color:var(--stage); color:var(--stage);}
 .remove-btn{
-  flex:none; border:none; background:transparent; color:var(--ink-soft); font-size:1rem; cursor:pointer;
+  flex:none; margin-top:2px; border:none; background:transparent; color:var(--ink-soft); font-size:1rem; cursor:pointer;
   width:24px; height:24px; border-radius:50%;
 }
 .remove-btn:hover{background:var(--warn-soft); color:var(--warn);}
@@ -180,8 +191,12 @@ textarea.fill:focus{outline:2px solid var(--stage); outline-offset:1px;}
 .fill-table{width:100%; border-collapse:collapse; min-width:560px;}
 .fill-table th,.fill-table td{border:1px solid var(--line); padding:6px;}
 .fill-table th{background:var(--paper); font-size:.78rem; color:var(--ink-soft); font-weight:700; text-align:left;}
-.fill-table td input{width:100%; border:none; background:transparent; font-family:inherit; font-size:.87rem; padding:6px;}
-.fill-table td input:focus{outline:none; background:#FCFCFA;}
+.fill-table td .cell-text{
+  display:block; width:100%; min-width:0; border:none; background:transparent;
+  font-family:inherit; font-size:.87rem; line-height:1.5; color:var(--ink);
+  padding:6px; resize:none; overflow:hidden;
+}
+.fill-table td .cell-text:focus{outline:none; background:#FCFCFA;}
 .fill-table td.row-remove{text-align:center; width:36px;}
 
 /* ---------- ロードマップ ---------- */

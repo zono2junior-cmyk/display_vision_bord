@@ -85,6 +85,15 @@ function debounce(fn, wait) {
   };
 }
 
+// オートリサイズ：<textarea>の高さを中身の量に合わせて自動で伸び縮みさせます。
+// 手順は「1. 一度高さをリセット → 2. 中身の実際の高さ(scrollHeight)を測る →
+// 3. その高さぶんCSSのheightを指定する」という3ステップです。
+// こうしないと、文章を削除したときに前の高さのまま伸びっぱなしになってしまいます。
+function autosize(textarea) {
+  textarea.style.height = "auto";
+  textarea.style.height = textarea.scrollHeight + "px";
+}
+
 /* ---------------------------------------------------------
  * 3. DOM要素を作るための小さなヘルパー
  *    document.createElement を毎回書くと長くなるので簡略化しています。
@@ -149,12 +158,16 @@ function buildStatusListEl(key, defaultItems) {
       });
 
       // 文言そのものを編集できる入力欄
-      const textInput = el("input", {
-        type: "text",
+      // <textarea>にして、入力量に応じて自動で高さが伸びるようにしています
+      // （1行のinputだと長い文章が見切れてしまうため）
+      const textInput = el("textarea", {
         class: "status-text",
-        value: item.text,
+        rows: "1",
         placeholder: "内容を入力"
       });
+      textInput.value = item.text;
+      autosize(textInput);
+      textInput.addEventListener("input", () => autosize(textInput));
       textInput.addEventListener(
         "input",
         debounce((e) => {
@@ -226,12 +239,14 @@ function buildChecklistEl(key, defaultItems, columns) {
       if (item.unclear) placeholder = "内容をご記入ください（元画像で判読できませんでした）";
       else if (item.placeholder) placeholder = "（自由記入）";
 
-      const textInput = el("input", {
-        type: "text",
+      const textInput = el("textarea", {
         class: "inline-text",
-        value: item.text || "",
+        rows: "1",
         placeholder: placeholder
       });
+      textInput.value = item.text || "";
+      autosize(textInput);
+      textInput.addEventListener("input", () => autosize(textInput));
       textInput.addEventListener(
         "input",
         debounce((e) => {
@@ -367,7 +382,10 @@ function renderTable(block) {
     rows.forEach((row, ridx) => {
       const tr = el("tr", {});
       block.columns.forEach((col) => {
-        const input = el("input", { type: "text", value: row[col.key] || "" });
+        const input = el("textarea", { class: "cell-text", rows: "1" });
+        input.value = row[col.key] || "";
+        autosize(input);
+        input.addEventListener("input", () => autosize(input));
         input.addEventListener(
           "input",
           debounce((e) => {
@@ -625,6 +643,11 @@ function init() {
   // 18セクション
   const main = document.getElementById("sections");
   DATA.sections.forEach((s) => main.appendChild(renderSection(s)));
+
+  // 補足：textareaの高さ(scrollHeight)は、実際に画面(DOM)に挿入された後で
+  // ないと正しく測れません。ここまでの appendChild で全セクションが画面に
+  // 挿入された「後」に、あらためて全てのtextareaの高さを計算し直しています。
+  document.querySelectorAll("textarea.status-text, textarea.inline-text, textarea.cell-text").forEach(autosize);
 
   wirePrint();
   checkStorage();
