@@ -166,7 +166,6 @@ function buildStatusListEl(key, defaultItems) {
         placeholder: "内容を入力"
       });
       textInput.value = item.text;
-      autosize(textInput);
       textInput.addEventListener("input", () => autosize(textInput));
       textInput.addEventListener(
         "input",
@@ -190,6 +189,10 @@ function buildStatusListEl(key, defaultItems) {
 
       wrap.appendChild(el("div", { class: "status-item" }, toggleBtn, textInput, removeBtn));
     });
+
+    // ここまでで全行を wrap に挿入し終えています。
+    // (再描画時は wrap は既に画面に貼り付いているので、ここで測れば正しい高さになります)
+    wrap.querySelectorAll(".status-text").forEach(autosize);
 
     // 新しい項目を追加するボタん（未確定として追加されます）
     const addBtn = el("button", { type: "button", class: "add-btn" }, "＋ 項目を追加");
@@ -245,7 +248,6 @@ function buildChecklistEl(key, defaultItems, columns) {
         placeholder: placeholder
       });
       textInput.value = item.text || "";
-      autosize(textInput);
       textInput.addEventListener("input", () => autosize(textInput));
       textInput.addEventListener(
         "input",
@@ -272,6 +274,8 @@ function buildChecklistEl(key, defaultItems, columns) {
 
       wrap.appendChild(el("div", { class: "checklist-item" }, ...rowChildren));
     });
+
+    wrap.querySelectorAll(".inline-text").forEach(autosize);
 
     const addBtn = el("button", { type: "button", class: "add-btn" }, "＋ 項目を追加");
     addBtn.addEventListener("click", () => {
@@ -384,7 +388,6 @@ function renderTable(block) {
       block.columns.forEach((col) => {
         const input = el("textarea", { class: "cell-text", rows: "1" });
         input.value = row[col.key] || "";
-        autosize(input);
         input.addEventListener("input", () => autosize(input));
         input.addEventListener(
           "input",
@@ -408,6 +411,7 @@ function renderTable(block) {
       tr.appendChild(el("td", { class: "row-remove" }, removeBtn));
       tbody.appendChild(tr);
     });
+    tbody.querySelectorAll(".cell-text").forEach(autosize);
   }
   renderRows();
 
